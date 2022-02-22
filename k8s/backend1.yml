@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend1-service
+spec:
+  selector:
+    app: backend1
+  ports:
+  - name: http
+    port: 18080
+    targetPort: 8080
+    protocol: TCP
+  - name: https
+    port: 18443
+    targetPort: 8443
+    protocol: TCP
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend1
+  labels:
+    app: backend1
+spec:
+  containers:
+  - name: backend1
+    image: f5devcentral/f5-demo-httpd:openshift
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: 'F5DEMO_APP'
+      value: 'backend'
+    ports:
+    - name: http
+      containerPort: 8080
+      protocol: TCP
+    - name: https
+      containerPort: 8443
+      protocol: TCP
