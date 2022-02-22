@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/api1" name="api" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/failover">
+        <inSequence>
+            <log level="custom">
+                <property name="whereAmI?" value="inSequence start"/>
+            </log>
+
+            <header name="header0" value="micro-integrator" scope="transport" action="set"/>
+
+            <header name="header1" scope="transport" action="remove"/>
+
+            <send>
+                <endpoint name="failoverEndpoint">
+                    <failover>
+                        <endpoint name="endpoint1">
+                            <http method="GET" uri-template="http://backend1-service:18080/headers.json"/>
+                        </endpoint>
+                        <endpoint name="endpoint2">
+                            <http method="GET" uri-template="http://backend2-service:28080/headers.json"/>
+                        </endpoint>                        
+                    </failover>
+                </endpoint>
+            </send>
+
+            <log level="custom">
+                <property name="whereAmI?" value="inSequence end"/>
+            </log>
+        </inSequence>
+
+        <outSequence>
+            <log level="custom">
+                <property name="whereAmI?" value="outSequence start"/>
+            </log>
+
+            <respond/>
+
+            <log level="custom">
+                <property name="whereAmI?" value="outSequence start"/>
+            </log>
+
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>
