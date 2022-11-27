@@ -36,7 +36,7 @@
             <respond/>
 
             <log level="custom">
-                <property name="whereAmI?" value="outSequence start"/>
+                <property name="whereAmI?" value="outSequence end"/>
             </log>
 
         </outSequence>

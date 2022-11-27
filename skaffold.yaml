@@ -1,0 +1,28 @@
+apiVersion: skaffold/v2beta23
+kind: Config
+metadata:
+  name: mi-endpoints
+#build:
+#  artifacts:
+#  - image: mi
+#    context: mi-build-context
+#    docker:
+#      dockerfile: Dockerfile
+#  local:
+#    push: false
+deploy:
+  kubectl:
+    manifests:
+    - k8s/*.yml
+  kustomize:
+    paths:
+    - mi-kustomize
+portForward:
+- resourceType: service
+  resourceName: mi-service
+  port: 8290
+  localPort: 8290
+- resourceType: service
+  resourceName: mi-service
+  port: 8253
+  localPort: 8253

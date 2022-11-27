@@ -1,0 +1,9 @@
+TODO
+
+* base with only simple deployment, service and ingress
+* overlay with apis and volume mounts
+* clean skaffold and folder structure
+* add some random traffice to in
+* reposite the base in another repo, and use it a a base
+* document kubeshark
+* migrate to skaffold 2

@@ -1,0 +1,12 @@
+resources:
+- mi-deployment.yaml
+
+images:
+- name: micro-integrator
+  newName: wso2/wso2mi
+  newTag: 4.1.0
+
+configMapGenerator:
+- name: api-configmap
+  files:
+  - api/api1.xml

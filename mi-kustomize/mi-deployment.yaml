@@ -1,0 +1,52 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mi-service
+spec:
+  selector:
+    app: mi
+  ports:
+  - name: http
+    port: 8290
+    targetPort: 8290
+    protocol: TCP
+  - name: https
+    port: 8253
+    targetPort: 8253
+    protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi
+  labels:
+    app: mi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mi
+  template:
+    metadata:
+      labels:
+        app: mi
+    spec:
+      containers:
+      - name: mi
+        image: wso2/wso2mi:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8290
+          protocol: TCP
+        - name: http2
+          containerPort: 8253
+          protocol: TCP
+        volumeMounts:
+        - name: api-volume
+          mountPath: /home/wso2carbon/wso2mi-4.1.0/repository/deployment/server/synapse-configs/default/api
+      volumes:
+      - name: api-volume
+        configMap:
+          name: api-configmap
